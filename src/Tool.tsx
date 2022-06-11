@@ -4,22 +4,22 @@ import { Icons, IconButton } from "@storybook/components";
 import { TOOL_ID } from "./constants";
 
 export const Tool = () => {
-  const [{ myAddon }, updateGlobals] = useGlobals();
+  const [{ numberingActive }, updateGlobals] = useGlobals();
 
-  const toggleMyTool = useCallback(
+  const toggleNumbering = useCallback(
     () =>
       updateGlobals({
-        myAddon: myAddon ? undefined : true,
+        numberingActive: numberingActive ? undefined : true,
       }),
-    [myAddon]
+    [numberingActive]
   );
 
   return (
     <IconButton
       key={TOOL_ID}
-      active={myAddon}
-      title="Enable my addon"
-      onClick={toggleMyTool}
+      active={numberingActive}
+      title="Add numbering to each UI components"
+      onClick={toggleNumbering}
     >
       {/*
         Checkout https://next--storybookjs.netlify.app/official-storybook/?path=/story/basics-icon--labels
