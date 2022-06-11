@@ -1,11 +1,22 @@
-import React from 'react';
+import React from "react";
 
-import { Page } from './Page';
-import * as HeaderStories from './Header.stories';
+import { Page } from "./Page";
+import * as HeaderStories from "./Header.stories";
 
 export default {
-  title: 'Example/Page',
+  title: "Example/Page",
   component: Page,
+  parameters: {
+    numbering: {
+      before: [
+        "article div.wrapper > div:first-child",
+        "article div.wrapper div button.storybook-button.storybook-button--small.storybook-button--secondary",
+      ],
+      after: [
+        "button.storybook-button.storybook-button--small.storybook-button--primary",
+      ],
+    },
+  },
 };
 
 const Template = (args) => <Page {...args} />;
