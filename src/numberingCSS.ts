@@ -29,8 +29,8 @@ const baseCss = (
   index: number
 ) => `
 ${storySelector} ${componentSelector}::${psuedoElement} {
-  content: "${index}";
-  width: ${index <= 9 ? 1 : 2}em;
+  content: "${index + 1}";
+  width: ${index + 1 <= 9 ? 1 : 2}em;
   border: dashed;
   border-radius: 100%;
   display: inline-block;
