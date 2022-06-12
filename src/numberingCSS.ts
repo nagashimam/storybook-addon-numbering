@@ -4,7 +4,7 @@ export default function (
   storySelector: string,
   componentSelectors: ComponentSelectors
 ): string {
-  const beforeCss = componentSelectors.before.reduce(
+  const beforeCss = componentSelectors?.before?.reduce(
     (prev, componentSelector, index) => `${prev}
     ${baseCss(storySelector, componentSelector, "before", index)}`,
     ""
@@ -18,7 +18,7 @@ export default function (
       index + componentSelectors.before.length
     )}
     `,
-    beforeCss
+    beforeCss || ""
   );
 }
 
