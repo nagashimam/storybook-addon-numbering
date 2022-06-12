@@ -18,8 +18,8 @@ export const withGlobals: DecoratorFunction = (StoryFn, context) => {
 
   useEffect(() => {
     const selectorId = isInDocs
-      ? `addon-outline-docs-${context.id}`
-      : `addon-outline`;
+      ? `addon-numbering-docs-${context.id}`
+      : `addon-numbering`;
 
     if (!numberingActive) {
       clearStyles(selectorId);
