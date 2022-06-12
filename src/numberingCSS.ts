@@ -11,7 +11,7 @@ export default function (
     ${baseCss(storySelector, componentSelector, "before", index)}`,
     ""
   );
-  return componentSelectors.after.reduce(
+  return componentSelectors?.after?.reduce(
     (prev, componentSelector, index) => ` ${prev}
     ${baseCss(
       storySelector,
