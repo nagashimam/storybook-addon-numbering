@@ -4,6 +4,7 @@ export const clearStyles = (selector: string | string[]) => {
 };
 
 const clearStyle = (selector: string) => {
+  console.log("log:clearStyle", { selector });
   const element = document.getElementById(selector);
   if (element && element.parentElement) {
     element.parentElement.removeChild(element);
@@ -11,6 +12,8 @@ const clearStyle = (selector: string) => {
 };
 
 export const addNumberingStyle = (selector: string, css: string) => {
+  console.log("log:addNumberingStyle", { selector });
+  console.log("log:addNumberingStyle", { css });
   const existingStyle = document.getElementById(selector);
   if (existingStyle) {
     if (existingStyle.innerHTML !== css) {

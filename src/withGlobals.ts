@@ -8,6 +8,7 @@ import { addNumberingStyle, clearStyles } from "./helpers";
 import numberingCSS from "./numberingCSS";
 
 export const withGlobals: DecoratorFunction = (StoryFn, context) => {
+  console.log("log:", { context });
   const [{ numberingActive }] = useGlobals();
   // Is the addon being used in the docs panel
   const isInDocs = context.viewMode === "docs";
@@ -17,6 +18,7 @@ export const withGlobals: DecoratorFunction = (StoryFn, context) => {
       ? `#anchor--${context.id} .docs-story`
       : ".sb-show-main";
     const css = numberingCSS(storySelector, context.parameters.numbering);
+    console.log("log:", { css });
 
     return css || "";
   }, [context.id]);
