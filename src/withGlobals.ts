@@ -1,9 +1,4 @@
-import {
-  DecoratorFunction,
-  useEffect,
-  useGlobals,
-  useMemo,
-} from "@storybook/addons";
+import { DecoratorFunction, useEffect, useGlobals } from "@storybook/addons";
 import { addNumberingStyle, clearStyles } from "./helpers";
 import numberingCSS from "./numberingCSS";
 
@@ -13,15 +8,13 @@ export const withGlobals: DecoratorFunction = (StoryFn, context) => {
   // Is the addon being used in the docs panel
   const isInDocs = context.viewMode === "docs";
 
-  const numberingStyles = useMemo(() => {
-    const storySelector = isInDocs
-      ? `#anchor--${context.id} .docs-story`
-      : ".sb-show-main";
-    const css = numberingCSS(storySelector, context.parameters.numbering);
-    console.log("log:", { css });
+  const storySelector = isInDocs
+    ? `#anchor--${context.id} .docs-story`
+    : ".sb-show-main";
+  const css = numberingCSS(storySelector, context.parameters.numbering);
+  console.log("log:", { css });
 
-    return css || "";
-  }, [context.id]);
+  const numberingStyles = css || "";
 
   useEffect(() => {
     const selectorId = isInDocs
