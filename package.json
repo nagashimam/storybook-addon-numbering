@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "description": "Add numbering next to UI components",
   "keywords": [
-    "storybook-addons", "documentation", "storybook-addons"
+    "storybook-addons",
+    "documentation",
+    "storybook-addons"
   ],
   "repository": {
     "type": "git",
@@ -30,7 +32,7 @@
     "build": "concurrently \"yarn buildBabel\" \"yarn buildTsc\"",
     "build:watch": "concurrently \"yarn buildBabel:esm -- --watch\" \"yarn buildTsc -- --watch\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6007",
     "start": "concurrently \"yarn build:watch\" \"yarn storybook -- --no-manager-cache --quiet\"",
     "build-storybook": "build-storybook",
     "prerelease": "zx scripts/prepublish-checks.mjs",
@@ -81,7 +83,9 @@
   "storybook": {
     "displayName": "numbering",
     "supportedFrameworks": [
-      "react", "vue", "angular"
+      "react",
+      "vue",
+      "angular"
     ],
     "icon": "https://user-images.githubusercontent.com/321738/63501763-88dbf600-c4cc-11e9-96cd-94adadc2fd72.png"
   }
