@@ -1,37 +1,58 @@
-import { DecoratorFunction, useEffect, useGlobals } from "@storybook/addons";
+import addons, {
+  DecoratorFunction,
+  useGlobals,
+  useParameter,
+} from "@storybook/addons";
+import events from "@storybook/core-events";
+import { PARAM_KEY } from "./constants";
 import { addNumberingStyle, clearStyles } from "./helpers";
 import numberingCSS from "./numberingCSS";
+import { ComponentSelectors } from "./types";
+
+// It seems Angular addon-docs doesn't call decorators of other addons
+// Instead, we have to listen to GLOBALS_UPDATED and invoke functions by ourselves
+
+// TODO: Fix this hack to enable users to specify different parameters for stories in one story file
+// Currently, all stories use the same parameters in docs tab
+
+// TODO: Fix this hack to enable users to apply numbering in docs tab before they do so in canvas tab.
+const defaultComponentSelectors: ComponentSelectors = {
+  before: [],
+  after: [],
+};
+let currentComponentSelectors: ComponentSelectors = defaultComponentSelectors;
 
 export const withGlobals: DecoratorFunction = (StoryFn, context) => {
-  console.log("log:", { context });
+  currentComponentSelectors = useParameter<ComponentSelectors>(
+    PARAM_KEY,
+    defaultComponentSelectors
+  );
   const [{ numberingActive }] = useGlobals();
-  // Is the addon being used in the docs panel
-  const isInDocs = context.viewMode === "docs";
+  applyStyle(numberingActive);
+  console.log("log:withGlobals", { currentComponentSelectors });
+  return StoryFn();
+};
 
-  const storySelector = isInDocs
-    ? `#anchor--${context.id} .docs-story`
-    : ".sb-show-main";
-  const css = numberingCSS(storySelector, context.parameters.numbering);
+const channel = addons.getChannel();
+channel.on(events.GLOBALS_UPDATED, (args) => {
+  const numberingActive = args.globals.numberingActive;
+  applyStyle(numberingActive);
+});
+
+const applyStyle = (numberingActive: boolean) => {
+  console.log("log:", { numberingActive });
+  const storySelector = ".sb-show-main";
+  const css = numberingCSS(storySelector, currentComponentSelectors);
   console.log("log:", { css });
 
   const numberingStyles = css || "";
 
-  useEffect(() => {
-    const selectorId = isInDocs
-      ? `addon-numbering-docs-${context.id}`
-      : `addon-numbering`;
+  const selectorId = "addon-numbering";
+  if (!numberingActive) {
+    clearStyles(selectorId);
+    return;
+  }
 
-    if (!numberingActive) {
-      clearStyles(selectorId);
-      return;
-    }
-
-    addNumberingStyle(selectorId, numberingStyles);
-
-    return () => {
-      clearStyles(selectorId);
-    };
-  }, [numberingActive, numberingStyles, context.id]);
-
-  return StoryFn();
+  addNumberingStyle(selectorId, numberingStyles);
+  console.log("log:globalUpdated");
 };
