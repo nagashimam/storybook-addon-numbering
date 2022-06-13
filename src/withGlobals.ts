@@ -5,7 +5,7 @@ import addons, {
 } from "@storybook/addons";
 import events from "@storybook/core-events";
 import { PARAM_KEY } from "./constants";
-import { addNumberingStyle, clearStyles } from "./helpers";
+import { addNumberingStyleToEntireDocument, clearStyles } from "./helpers";
 import numberingCSS from "./numberingCSS";
 import { ComponentSelectors } from "./types";
 
@@ -29,7 +29,6 @@ export const withGlobals: DecoratorFunction = (StoryFn, context) => {
   );
   const [{ numberingActive }] = useGlobals();
   applyStyle(numberingActive);
-  console.log("log:withGlobals", { currentComponentSelectors });
   return StoryFn();
 };
 
@@ -40,19 +39,16 @@ channel.on(events.GLOBALS_UPDATED, (args) => {
 });
 
 const applyStyle = (numberingActive: boolean) => {
-  console.log("log:", { numberingActive });
-  const storySelector = ".sb-show-main";
-  const css = numberingCSS(storySelector, currentComponentSelectors);
-  console.log("log:", { css });
-
-  const numberingStyles = css || "";
-
   const selectorId = "addon-numbering";
   if (!numberingActive) {
     clearStyles(selectorId);
     return;
   }
 
-  addNumberingStyle(selectorId, numberingStyles);
-  console.log("log:globalUpdated");
+  const storySelector = ".sb-show-main";
+  const css = numberingCSS(storySelector, currentComponentSelectors);
+  if (css === "") {
+    return;
+  }
+  addNumberingStyleToEntireDocument(selectorId, css);
 };
